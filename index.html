@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway - Academic Portal</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --error-color: #dc2626;
+            --text-dark: #1f2937;
+            --text-light: #4b5563;
+            --bg-gray: #f3f4f6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px 32px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Portal Header Branding */
+        .portal-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .portal-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Loading State */
+        #loading-state {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border-left-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+
+        /* Error State */
+        #error-state {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .error-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #fee2e2;
+            color: var(--error-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 24px auto;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 0 12px 0;
+        }
+
+        p {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin: 0 0 24px 0;
+        }
+
+        .meta-info {
+            background-color: var(--bg-gray);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #6b7280;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .meta-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-action {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: #1d4ed8;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="portal-header">
+        <h2 class="portal-title">Jaypee University Student Payment Portal</h2>
+    </div>
+
+    <div id="loading-state">
+        <div class="spinner"></div>
+        <p>Connecting to secure payment gateway...</p>
+    </div>
+
+    <div id="error-state">
+        <div class="error-icon">✕</div>
+        <h1>Gateway Connection Failed</h1>
+        <p>The fee payment server is experiencing unusually high traffic or temporary instability. Your session has timed out to prevent duplicate charges.</p>
+        
+        <div class="meta-info">
+            <div class="meta-row"><span>Error Code:</span> <span>ERR_CONNECTION_TIMED_OUT</span></div>
+            <div class="meta-row"><span>Status:</span> <span>HTTP 504 Gateway Timeout</span></div>
+            <div class="meta-row"><span>Timestamp:</span> <span id="timestamp"></span></div>
+        </div>
+
+        <button class="btn-action" onclick="window.location.reload();">Retry Transaction</button>
+    </div>
+</div>
+
+<script>
+    // Simulate gateway delay before throwing the error state
+    setTimeout(() => {
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'block';
+        
+        // Dynamically set current timestamp for realism
+        const now = new Date();
+        document.getElementById('timestamp').innerText = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+    }, 2500); // 2.5 second delay
+</script>
+
+</body>
+</html>
