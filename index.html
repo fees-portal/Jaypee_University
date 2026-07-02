@@ -170,7 +170,6 @@
         <div class="meta-info">
             <div class="meta-row"><span>Error Code:</span> <span>ERR_CONNECTION_TIMED_OUT</span></div>
             <div class="meta-row"><span>Status:</span> <span>HTTP 504 Gateway Timeout</span></div>
-            <div class="meta-row"><span>Timestamp:</span> <span id="timestamp"></span></div>
         </div>
 
         <button class="btn-action" onclick="window.location.reload();">Retry Transaction</button>
@@ -182,10 +181,6 @@
     setTimeout(() => {
         document.getElementById('loading-state').style.display = 'none';
         document.getElementById('error-state').style.display = 'block';
-        
-        // Dynamically set current timestamp for realism
-        const now = new Date();
-        document.getElementById('timestamp').innerText = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
     }, 2500); // 2.5 second delay
 </script>
 
